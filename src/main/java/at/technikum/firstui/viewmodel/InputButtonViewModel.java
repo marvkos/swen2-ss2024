@@ -1,9 +1,11 @@
 package at.technikum.firstui.viewmodel;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.FocusModel;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 
 public class InputButtonViewModel {
 
@@ -11,12 +13,37 @@ public class InputButtonViewModel {
             = new SimpleStringProperty("");
     private final BooleanProperty disableSearch
             = new SimpleBooleanProperty(true);
+    private final ObservableList<String> searchHistory
+            = FXCollections.observableArrayList();
+    private final IntegerProperty selectedSearchIndex
+            = new SimpleIntegerProperty();
 
     public InputButtonViewModel() {
         // if search text is empty, disable search
         this.searchText.addListener(
                 observable -> disableSearch.set(searchText.get().isEmpty())
         );
+        // if item is selected, fill in search text
+        this.selectedSearchIndex.addListener(
+                observable -> selectSearchHistory()
+        );
+    }
+
+    public void search() {
+        if (disableSearch.get()) {
+            return;
+        }
+
+        searchHistory.add(searchText.get());
+        searchText.set("");
+    }
+
+    public void selectSearchHistory() {
+        if (selectedSearchIndex.get() == -1) {
+            return;
+        }
+
+        searchText.set(searchHistory.get(selectedSearchIndex.get()));
     }
 
     public String getSearchText() {
@@ -41,5 +68,13 @@ public class InputButtonViewModel {
 
     public void setDisableSearch(boolean disableSearch) {
         this.disableSearch.set(disableSearch);
+    }
+
+    public ObservableList<String> getSearchHistory() {
+        return searchHistory;
+    }
+
+    public IntegerProperty selectedSearchIndexProperty() {
+        return selectedSearchIndex;
     }
 }

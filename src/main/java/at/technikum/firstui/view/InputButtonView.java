@@ -8,7 +8,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class InputButtonView implements Initializable {
@@ -21,6 +20,9 @@ public class InputButtonView implements Initializable {
     @FXML
     private Button searchButton;
 
+    @FXML
+    private ListView<String> searchHistoryList;
+
     public InputButtonView() {
         this.viewModel = new InputButtonViewModel();
     }
@@ -31,5 +33,14 @@ public class InputButtonView implements Initializable {
                 .bindBidirectional(viewModel.searchTextProperty());
         this.searchButton.disableProperty()
                 .bind(viewModel.disableSearchProperty());
+        this.searchHistoryList
+                .setItems(viewModel.getSearchHistory());
+        this.viewModel.selectedSearchIndexProperty()
+                .bind(searchHistoryList.getSelectionModel().selectedIndexProperty());
+    }
+
+    @FXML
+    public void onSearch() {
+        this.viewModel.search();
     }
 }
