@@ -9,16 +9,14 @@ public class InputButtonViewModel {
 
     private final StringProperty searchText
             = new SimpleStringProperty("");
-    private final BooleanProperty disabledSearchButton
+    private final BooleanProperty disableSearch
             = new SimpleBooleanProperty(true);
 
-
     public InputButtonViewModel() {
-        this.searchText.addListener(observable -> updateSearchButton());
-    }
-
-    public void updateSearchButton() {
-        disabledSearchButton.set(searchText.get().isEmpty());
+        // if search text is empty, disable search
+        this.searchText.addListener(
+                observable -> disableSearch.set(searchText.get().isEmpty())
+        );
     }
 
     public String getSearchText() {
@@ -33,15 +31,15 @@ public class InputButtonViewModel {
         this.searchText.set(searchText);
     }
 
-    public boolean isDisabledSearchButton() {
-        return disabledSearchButton.get();
+    public boolean getDisableSearch() {
+        return disableSearch.get();
     }
 
-    public BooleanProperty disabledSearchButtonProperty() {
-        return disabledSearchButton;
+    public BooleanProperty disableSearchProperty() {
+        return disableSearch;
     }
 
-    public void setDisabledSearchButton(boolean disabledSearchButton) {
-        this.disabledSearchButton.set(disabledSearchButton);
+    public void setDisableSearch(boolean disableSearch) {
+        this.disableSearch.set(disableSearch);
     }
 }

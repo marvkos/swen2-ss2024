@@ -4,9 +4,11 @@ import at.technikum.firstui.viewmodel.InputButtonViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class InputButtonView implements Initializable {
@@ -28,13 +30,6 @@ public class InputButtonView implements Initializable {
         this.searchField.textProperty()
                 .bindBidirectional(viewModel.searchTextProperty());
         this.searchButton.disableProperty()
-                .bind(viewModel.disabledSearchButtonProperty());
+                .bind(viewModel.disableSearchProperty());
     }
-
-    /*
-    @FXML
-    public void onSearchInput() {
-        this.viewModel.updateSearchButton();
-    }
-    */
 }
