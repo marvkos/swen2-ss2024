@@ -1,18 +1,17 @@
 package at.technikum.firstui.view;
 
-import at.technikum.firstui.viewmodel.InputButtonViewModel;
+import at.technikum.firstui.viewmodel.SearchViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class InputButtonView implements Initializable {
+public class SearchView implements Initializable {
 
-    private final InputButtonViewModel viewModel;
+    private final SearchViewModel viewModel;
 
     @FXML
     private TextField searchField;
@@ -20,11 +19,8 @@ public class InputButtonView implements Initializable {
     @FXML
     private Button searchButton;
 
-    @FXML
-    private ListView<String> searchHistoryList;
-
-    public InputButtonView() {
-        this.viewModel = new InputButtonViewModel();
+    public SearchView(SearchViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     @Override
@@ -33,10 +29,6 @@ public class InputButtonView implements Initializable {
                 .bindBidirectional(viewModel.searchTextProperty());
         this.searchButton.disableProperty()
                 .bind(viewModel.disableSearchProperty());
-        this.searchHistoryList
-                .setItems(viewModel.getSearchHistory());
-        this.viewModel.selectedSearchIndexProperty()
-                .bind(searchHistoryList.getSelectionModel().selectedIndexProperty());
     }
 
     @FXML
