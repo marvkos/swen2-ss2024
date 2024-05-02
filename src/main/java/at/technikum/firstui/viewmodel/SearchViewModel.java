@@ -13,7 +13,7 @@ public class SearchViewModel {
 
     private final StringProperty searchText
             = new SimpleStringProperty("");
-    private final BooleanProperty disableSearch
+    private final BooleanProperty searchDisabled
             = new SimpleBooleanProperty(true);
 
     public SearchViewModel(Publisher publisher) {
@@ -21,12 +21,15 @@ public class SearchViewModel {
 
         // if search text is empty, disable search
         this.searchText.addListener(
-                observable -> disableSearch.set(searchText.get().isEmpty())
+                observable -> searchDisabled.set(searchText.get().isEmpty())
         );
+
+        // on search term selected event, set the selected term as current search term
+        publisher.subscribe(Event.SEARCH_TERM_SELECTED, searchText::set);
     }
 
     public void search() {
-        if (disableSearch.get()) {
+        if (searchDisabled.get()) {
             return;
         }
 
@@ -39,7 +42,19 @@ public class SearchViewModel {
         return searchText;
     }
 
-    public BooleanProperty disableSearchProperty() {
-        return disableSearch;
+    public String getSearchText() {
+        return searchText.get();
+    }
+
+    public BooleanProperty searchDisabledProperty() {
+        return searchDisabled;
+    }
+
+    public boolean getSearchDisabled() {
+        return searchDisabled.get();
+    }
+
+    public boolean isSearchDisabled() {
+        return searchDisabled.get();
     }
 }
