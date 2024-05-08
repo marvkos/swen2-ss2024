@@ -1,6 +1,9 @@
 package at.technikum.firstui;
 
 import at.technikum.firstui.event.Publisher;
+import at.technikum.firstui.repository.SearchTermMemoryRepository;
+import at.technikum.firstui.repository.SearchTermRepository;
+import at.technikum.firstui.service.SearchTermHistoryService;
 import at.technikum.firstui.view.SearchHistoryView;
 import at.technikum.firstui.view.SearchView;
 import at.technikum.firstui.viewmodel.SearchHistoryViewModel;
@@ -12,14 +15,22 @@ public class ViewFactory {
 
     private final Publisher publisher;
 
+    private final SearchTermRepository searchTermRepository;
+
+    private final SearchTermHistoryService searchTermHistoryService;
+
     private final SearchViewModel searchViewModel;
     private final SearchHistoryViewModel searchHistoryViewModel;
 
     private ViewFactory() {
         publisher = new Publisher();
 
-        searchViewModel = new SearchViewModel(publisher);
-        searchHistoryViewModel = new SearchHistoryViewModel(publisher);
+        searchTermRepository = new SearchTermMemoryRepository();
+
+        searchTermHistoryService = new SearchTermHistoryService(searchTermRepository);
+
+        searchViewModel = new SearchViewModel(publisher, searchTermHistoryService);
+        searchHistoryViewModel = new SearchHistoryViewModel(publisher, searchTermHistoryService);
     }
 
     public static ViewFactory getInstance() {
