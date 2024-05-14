@@ -25,6 +25,8 @@ public class SearchHistoryViewModel {
         this.publisher = publisher;
         this.searchTermHistoryService = searchTermHistoryService;
 
+        searchHistory.setAll(searchTermHistoryService.findAll());
+
         // if item is selected, fill in search text
         this.selectedSearchIndex.addListener(
                 observable -> selectSearchHistory()

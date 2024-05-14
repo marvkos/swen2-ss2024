@@ -5,6 +5,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +23,14 @@ public class SearchTermDatabaseRepository implements SearchTermRepository {
 
     @Override
     public List<SearchTerm> findAll() {
-        return List.of();
+        CriteriaBuilder criteriaBuilder = entityManagerFactory.getCriteriaBuilder();
+        CriteriaQuery<SearchTerm> criteriaQuery = criteriaBuilder.createQuery(SearchTerm.class);
+        Root<SearchTerm> root = criteriaQuery.from(SearchTerm.class);
+        CriteriaQuery<SearchTerm> all = criteriaQuery.select(root);
+
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            return entityManager.createQuery(all).getResultList();
+        }
     }
 
     @Override
