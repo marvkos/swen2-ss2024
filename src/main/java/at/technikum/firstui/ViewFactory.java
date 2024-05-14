@@ -1,6 +1,7 @@
 package at.technikum.firstui;
 
 import at.technikum.firstui.event.Publisher;
+import at.technikum.firstui.repository.SearchTermDatabaseRepository;
 import at.technikum.firstui.repository.SearchTermMemoryRepository;
 import at.technikum.firstui.repository.SearchTermRepository;
 import at.technikum.firstui.service.SearchTermHistoryService;
@@ -25,7 +26,7 @@ public class ViewFactory {
     private ViewFactory() {
         publisher = new Publisher();
 
-        searchTermRepository = new SearchTermMemoryRepository();
+        searchTermRepository = new SearchTermDatabaseRepository();
 
         searchTermHistoryService = new SearchTermHistoryService(searchTermRepository);
 
