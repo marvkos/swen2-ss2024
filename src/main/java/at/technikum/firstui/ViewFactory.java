@@ -2,7 +2,6 @@ package at.technikum.firstui;
 
 import at.technikum.firstui.event.Publisher;
 import at.technikum.firstui.repository.SearchTermDatabaseRepository;
-import at.technikum.firstui.repository.SearchTermMemoryRepository;
 import at.technikum.firstui.repository.SearchTermRepository;
 import at.technikum.firstui.service.SearchTermHistoryService;
 import at.technikum.firstui.view.SearchHistoryView;

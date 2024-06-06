@@ -1,10 +1,8 @@
 package at.technikum.firstui.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -15,6 +13,14 @@ public class SearchTerm {
     private UUID id;
 
     private String term;
+
+    @OneToMany(
+            targetEntity = SelectedTime.class,
+            mappedBy = "searchTerm",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
+    private List<SelectedTime> selectedTimes;
 
     public SearchTerm() {}
 
@@ -36,5 +42,10 @@ public class SearchTerm {
 
     public void setTerm(String term) {
         this.term = term;
+    }
+
+    public void addSelectedTime(SelectedTime selectedTime) {
+        selectedTime.setSearchTerm(this);
+        selectedTimes.add(selectedTime);
     }
 }

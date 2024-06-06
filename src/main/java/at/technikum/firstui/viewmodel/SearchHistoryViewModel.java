@@ -44,7 +44,10 @@ public class SearchHistoryViewModel {
         }
 
         // TODO send history select event
-        publisher.publish(Event.SEARCH_TERM_SELECTED, getSearchHistory().get(selectedSearchIndex.get()));
+        String term = getSearchHistory().get(selectedSearchIndex.get());
+        publisher.publish(Event.SEARCH_TERM_SELECTED, term);
+
+        searchTermHistoryService.addSelectedTimeToTerm(term);
     }
 
     private void updateSearchHistory(String message) {
